@@ -1,250 +1,117 @@
 # Customer Outage Comms Drafter
 
-## Overview
-
-Customer Outage Comms Drafter is an AI-powered web application that helps incident response teams quickly generate professional customer communications during service outages.
-
-The application converts technical incident timelines into clear, customer-friendly updates, reducing manual effort and improving communication consistency during critical incidents.
-
----
-
-## Problem Statement
-
-During service outages, technical teams often have detailed incident timelines but struggle to quickly create clear and professional customer communications.
-
-This project automates the communication process by generating:
-
-* Initial Customer Update
-* Progress Update
-* Resolved Update
-* Internal Incident Summary
-
-based on incident details, severity level, and communication tone.
-
----
-
-## Features
-
-### AI-Powered Communication Generation
-
-Automatically converts technical outage timelines into customer-friendly messages.
-
-### Severity Selection
-
-Supports:
-
-* Low
-* Medium
-* High
-
-severity levels.
-
-### Tone Selection
-
-Supports different communication styles:
-
-* Calm
-* Empathetic
-* Concise
-
-### Internal Incident Summary
-
-Generates a structured internal summary for incident management and reporting.
-
-### Copy to Clipboard
-
-Allows users to quickly copy generated communications for sharing through various channels.
-
-### Modern Responsive UI
-
-Simple and professional interface suitable for operational teams.
-
----
-
-## Technology Stack
-
-### Frontend
-
-* HTML5
-* CSS3
-* JavaScript
-
-### Backend
-
-* Python
-* Flask
-
-### AI Model
-
-* Groq API
-* Llama 3.3 70B Versatile
+An AI-powered web application that converts raw incident timelines into professional, customer-safe communications — automatically detecting the phase (initial, in-progress, or resolved) and drafting the right message each time.
 
 ---
 
 ## Project Structure
 
-```text
-Customer-Outage-Comms-Drafter/
+```
+project/
+├── backend/                  ← Flask application
+│   ├── app/
+│   │   ├── __init__.py       ← App factory
+│   │   ├── routes.py         ← API endpoints
+│   │   └── prompts.py        ← AI prompt templates
+│   ├── config.py             ← Loads GROQ_API_KEY from .env
+│   ├── requirements.txt      ← Python dependencies
+│   └── run.py                ← Entry point
 │
-├── app.py
-├── config.py
-├── requirements.txt
+├── frontend/                 ← UI layer
+│   ├── static/
+│   │   ├── css/style.css     ← Styles
+│   │   └── js/script.js      ← Client-side logic
+│   └── templates/
+│       └── index.html        ← Single-page UI
 │
-├── templates/
-│   └── index.html
+├── docs/                     ← Documentation
+│   ├── README.md             ← This file
+│   └── AI_USAGE.md           ← AI tools & prompt documentation
 │
-├── static/
-│   ├── style.css
-│   └── script.js
+├── tests/
+│   └── test_groq.py          ← Groq API connectivity test
 │
-└── README.md
+├── .env                      ← API key (never commit this)
+├── .env.example              ← Safe template to share
+└── .gitignore
 ```
 
 ---
 
-## Installation
+## Setup
 
-### Clone Repository
+### 1. Clone and enter the project
 
 ```bash
 git clone <repository-url>
 cd Customer-Outage-Comms-Drafter
 ```
 
-### Create Virtual Environment
+### 2. Create and activate virtual environment
 
 ```bash
 python -m venv venv
-```
 
-### Activate Virtual Environment
-
-Windows:
-
-```bash
+# Windows
 venv\Scripts\activate
-```
 
-Linux/Mac:
-
-```bash
+# Mac/Linux
 source venv/bin/activate
 ```
 
-### Install Dependencies
+### 3. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
----
+### 4. Configure your API key
 
-## Configuration
-
-Create a file named:
-
-```text
-config.py
-```
-
-Add your Groq API key:
-
-```python
-GROQ_API_KEY = "your_groq_api_key"
-```
-
----
-
-## Run Application
+Copy `.env.example` to `.env` and add your Groq API key:
 
 ```bash
-python app.py
+cp .env.example .env
 ```
 
-Open:
+Edit `.env`:
 
-```text
-http://127.0.0.1:5000
 ```
+GROQ_API_KEY=gsk_your_key_here
+```
+
+Get a free key at [console.groq.com](https://console.groq.com).
+
+### 5. Run the app
+
+```bash
+python backend/run.py
+```
+
+Open `http://127.0.0.1:5000`
 
 ---
 
-## Sample Input
+## How It Works
 
-### Timeline
-
-```text
-09:00 AM - Payment transactions failing for multiple customers
-
-09:10 AM - Incident response team activated
-
-09:30 AM - Root cause traced to payment gateway outage
-
-10:00 AM - Temporary workaround deployed
-
-10:30 AM - Payment processing restored
-
-10:45 AM - Monitoring confirms stability
-```
-
-### Severity
-
-```text
-High
-```
-
-### Tone
-
-```text
-Empathetic
-```
+1. Enter a single timeline update (e.g. `09:00 — Users unable to log in`)
+2. Click **Draft Update**
+3. The AI classifies it as `initial`, `progress`, or `resolved`
+4. Only the matching card is populated — others stay locked
+5. Each update appends to the Incident Summary Log
+6. Once complete, download the full report as a `.txt` file
 
 ---
 
-## Expected Output
+## Tech Stack
 
-### Initial Update
-
-Customer-friendly communication acknowledging the issue.
-
-### Progress Update
-
-Communication explaining ongoing efforts and progress.
-
-### Resolved Update
-
-Confirmation that services have been restored.
-
-### Internal Incident Summary
-
-Structured summary containing:
-
-* Incident Start Time
-* Investigation Details
-* Root Cause Information
-* Resolution Time
-* Severity Classification
+| Layer    | Technology                  |
+|----------|-----------------------------|
+| Frontend | HTML, CSS, JavaScript       |
+| Backend  | Python, Flask               |
+| AI       | Groq API — Llama 3.3 70B    |
 
 ---
 
-## Future Enhancements
+## AI Usage
 
-* PDF Export
-* Email Integration
-* Multi-language Support
-* Incident Analytics Dashboard
-* Automated Status Reports
-* Cloud Deployment
-
----
-
-## Benefits
-
-* Reduces manual communication effort
-* Improves consistency of outage messaging
-* Enhances customer experience
-* Supports incident management teams
-* Accelerates communication during critical outages
-
----
-
+See [AI_USAGE.md](AI_USAGE.md) for full details on AI tools used and prompt design.
